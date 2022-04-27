@@ -1,32 +1,43 @@
-%option noyywrap nodefault yylineno
+%option noinput nounput
+%option noyywrap
 %{
-    #include<string.h>
-    int linhas = 0, qtdTags = 0;
+#include "arqBison.tab.h"
+#include <stdio.h>
+#include <string.h>
+int num;
+
 %}
 
-TAG         \<(.)*\>
-WHITESPACE  [\ \t]
-LINHA       [\n]
-lett1       [a-z]+
-lett2       [A-Z]+
-word        [A-Z][a-z]+
+
+word [a-zA-Z0-9]+
+simbolo [" "|","|"."|":"|";"]
 
 %%
 
-"\\title{"(.)*/"}" { 
-    printf("aaaaaa: %.*s\n", strlen(yytext)-7, yytext+7);
-    char subtext[255];
-    memcpy(subtext,&yytext[7],strlen(yytext)-6);
-    return TITULO;
-    }
-"\\author{"(.)*/"}" {  }
-{TAG}        { qtdTags++; printf("Tag: %s\n", yytext); }
-{LINHA}      { linhas++; }
-{WHITESPACE} ;
-.            ;
+"{"                     {printf(" %s ", yytext); return yytext[0]; }
+"}"                     {printf(" %s ", yytext); return yytext[0]; }
+"\\usepackage{NOME}" 	{printf(" %s ", yytext); return PACOTE; }
+"\\documentclass{report}" 		{printf(" %s ", yytext); return CLASSE; }
+"\\title" 				{printf(" %s ", yytext); return TITULO; }
+"\\author" 				{printf(" %s ", yytext); return AUTOR; }
+"\\begin{document}" 	{printf(" %s ", yytext); return DOCINI; }
+"\\end{document}"  		{printf(" %s ", yytext); return DOCFIM; }
+"\\chapter"		  		{printf(" %s ", yytext); return CAPITULO; }
+"\\section"		  		{printf(" %s ", yytext); return SECAO; }
+"\\subsection"		  	{printf(" %s ", yytext); return SUBSECAO; }
+"\\paragraph" 			{printf(" %s ", yytext); return PARAGRAFO; }
+"\\begin{enumerate}"    {printf(" %s ", yytext); num = 1; return LISTANUMINI; }
+"\\end{enumerate}"      {printf(" %s ", yytext); num = 2; return LISTANUMFIM; }
+"\\item" 				{printf(" %s ", yytext); if(num == 1) return(LNUMITENS); else return(LITENS); }
+"\\begin{itemsize}"     {printf(" %s ", yytext); num = 0; return LITENSINI; }
+"\\end{itemsize}"		{printf(" %s ", yytext); num = 2; return LITENSFIM; }
+"\\bf"					{printf(" %s ", yytext); return BOLDFACE; }
+"\\it"					{printf(" %s ", yytext); return ITALICS; }
+"\\underline"			{printf(" %s ", yytext); return UNDERLINE; }
+
+({word}|{simbolo})+	    {printf(" aga %s ", yytext);;yylval.arr = strdup(yytext); return WORD;}
+\n {}
+[ \t] {}
+
 
 %%
-int main( int nArgs, char* szArgs[] ){
-    yylex();
-    return 0;
-}
