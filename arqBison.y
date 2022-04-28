@@ -10,84 +10,86 @@
 }
 
 /* declaracao de tokens */
-%token <s> NOME
-%token <s> CONTEUDO
-%token <s> CLASSE
-%token <s> PACOTE
-%token <s> AUTOR
+%token <s> NAME
+%token <s> CONTENT
+%token <s> CLASS
+%token <s> PACKAGE
+%token <s> AUTHOR
 %token EOL
 
 %type <a> exp factor term
 
 %%
-documentoLatex: configuracao identificacao principal
+documentLatex: configuration identification principal
 ;
 
-configuracao: CLASSE PACOTE
-| CLASSE
+configuration: CLASS PACKAGE
+| CLASS
 ;
 
-identificacao: TITULO AUTOR
-| TITULO
+identification: TITLE {fprintf(archivef,"\n# ");} '{' name '}' AUTHOR {fprintf(archivef,"\n# ");} '{' name '}'
+| TITLE {fprintf(archivef,"\n# ");} '{' name '}'
 ;
 
-principal: inicio corpoLista fim
+principal: beginning listBody end
 ;
 
-inicio: \begin{document}
+beginning: BEGINNING
 ;
 
-fim: \end{document}
+end: END
 ;
 
-corpoLista: capitulo secao subsecao corpoLista
-| corpo
+listBody: chapter section subsection listBody
+| body
 ;
 
-capitulo: \chapter{NOME} corpo capitulo
-| corpo
+chapter: CHAPTER {fprintf(archivef,"\n## ");} '{' name '}' body chapter
+| body
 ;
 
-secao: \section{NOME} corpo secao
-| corpo
+section: SECTION {fprintf(archivef,"\n### ");} '{' name '}' body section
+| body
 ;
 
-subsecao: \subsection{NOME} corpo subsecao
-| corpo
+subsection: SUBSECTION {fprintf(archivef,"\n#### ");} '{' name '}' body subsection
+| body
 ;
 
-corpo: texto
-| texto corpo
-| textoEstilo corpo
-| listas corpo
+body: text
+| text body
+| textStyle body
+| lists body
 ;
 
-texto: \paragraph{CONTEUDO}
+text: PARAGRAPH {fprintf(archivef,"\n\n");} '{' name '}'
 ;
 
-textoEstilo: \bf{CONTEUDO}
-| \underline{CONTEUDO}
-| \it{CONTEUDO}
+textStyle: BOLDFACE {fprintf(archivef,"\n**");} '{' name '}' {fprintf(archivef,"**");}
+| UNDERLINE {fprintf(archivef,"\n");} '{' name '}'
+| ITALICS {fprintf(archivef,"\n_");} '{' name '}' {fprintf(archivef,"_");}
 ;
 
-listas: listaNumerada
-| listaItens
+lists: numeredList
+| itemsList
 ;
 
-listaNumerada: \begin{enumerate} itensLNumerada \end{enumerate}
+numeredList: BEGNUMLIST itemsNumeredList ENDNUMLIST
 ;
 
-itensLNumerada: \item{CONTEUDO}
-| \item{CONTEUDO} itensLNumerada
-| listas
+itemsNumeredList: ITEMSNUMEREDLIST {fprintf(archivef,"\n1.");}
+| ITEMSNUMEREDLIST {fprintf(archivef,"\n1.");} itemsNumeredList
+| lists
 ;
 
-listaItens: \begin{itemize} itensLItens \end{itemize}
+itemsList: BEGITEMSL itemsLItems ENDITEMSL
 ;
 
-itensLItens: \item{CONTEUDO}
-| \item{CONTEUDO} itensLItens
-| listas
+itemsLItems: ITEMSNUMEREDLIST {fprintf(archivef,"\n*.");}
+| ITEMSNUMEREDLIST itemsLItems
+| lists
 ;
+
+name	:	WORD {fprintf(archivef,"%s",$1); }
 
 %%

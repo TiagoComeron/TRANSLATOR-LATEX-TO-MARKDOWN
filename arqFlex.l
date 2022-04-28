@@ -10,32 +10,32 @@ int num;
 
 
 word [a-zA-Z0-9]+
-simbolo [" "|","|"."|":"|";"]
+simbol [" "|","|"."|":"|";"]
 
 %%
 
-"{"                     {printf(" %s ", yytext); return yytext[0]; }
-"}"                     {printf(" %s ", yytext); return yytext[0]; }
-"\\usepackage{NOME}" 	{printf(" %s ", yytext); return PACOTE; }
-"\\documentclass{report}" 		{printf(" %s ", yytext); return CLASSE; }
-"\\title" 				{printf(" %s ", yytext); return TITULO; }
-"\\author" 				{printf(" %s ", yytext); return AUTOR; }
-"\\begin{document}" 	{printf(" %s ", yytext); return DOCINI; }
-"\\end{document}"  		{printf(" %s ", yytext); return DOCFIM; }
-"\\chapter"		  		{printf(" %s ", yytext); return CAPITULO; }
-"\\section"		  		{printf(" %s ", yytext); return SECAO; }
-"\\subsection"		  	{printf(" %s ", yytext); return SUBSECAO; }
-"\\paragraph" 			{printf(" %s ", yytext); return PARAGRAFO; }
-"\\begin{enumerate}"    {printf(" %s ", yytext); num = 1; return LISTANUMINI; }
-"\\end{enumerate}"      {printf(" %s ", yytext); num = 2; return LISTANUMFIM; }
-"\\item" 				{printf(" %s ", yytext); if(num == 1) return(LNUMITENS); else return(LITENS); }
-"\\begin{itemsize}"     {printf(" %s ", yytext); num = 0; return LITENSINI; }
-"\\end{itemsize}"		{printf(" %s ", yytext); num = 2; return LITENSFIM; }
-"\\bf"					{printf(" %s ", yytext); return BOLDFACE; }
-"\\it"					{printf(" %s ", yytext); return ITALICS; }
-"\\underline"			{printf(" %s ", yytext); return UNDERLINE; }
+"{"                         {printf(" %s ", yytext); return yytext[0]; }
+"}"                         {printf(" %s ", yytext); return yytext[0]; }
+"\\usepackage{NOME}" 	    {printf(" %s ", yytext); return PACKAGE; }
+"\\documentclass{report}" 	{printf(" %s ", yytext); return CLASS; }
+"\\title" 				    {printf(" %s ", yytext); return TITLE; }
+"\\author" 				    {printf(" %s ", yytext); return AUTHOR; }
+"\\begin{document}" 	    {printf(" %s ", yytext); return DOCINI; }
+"\\end{document}"  		    {printf(" %s ", yytext); return DOCFIM; }
+"\\chapter"		  		    {printf(" %s ", yytext); return CHAPTER; }
+"\\section"		  		    {printf(" %s ", yytext); return SECTION; }
+"\\subsection"		  	    {printf(" %s ", yytext); return SUBSECTION; }
+"\\paragraph" 			    {printf(" %s ", yytext); return PARAGRAPH; }
+"\\begin{enumerate}"        {printf(" %s ", yytext); num = 1; return BEGNUMLIST; }
+"\\end{enumerate}"          {printf(" %s ", yytext); num = 2; return ENDNUMLIST; }
+"\\item" 				    {printf(" %s ", yytext); if(num == 1) return(ITEMSNUMEREDLIST); else return(ITEMSL); }
+"\\begin{itemsize}"         {printf(" %s ", yytext); num = 0; return BEGITEMSL; }
+"\\end{itemsize}"		    {printf(" %s ", yytext); num = 2; return ENDITEMSL; }
+"\\bf"					    {printf(" %s ", yytext); return BOLDFACE; }
+"\\it"					    {printf(" %s ", yytext); return ITALICS; }
+"\\underline"			    {printf(" %s ", yytext); return UNDERLINE; }
 
-({word}|{simbolo})+	    {printf(" aga %s ", yytext);;yylval.arr = strdup(yytext); return WORD;}
+({word}|{simbol})+	    {printf(" aga %s ", yytext);;yylval.string = strdup(yytext); return WORD;}
 \n {}
 [ \t] {}
 
