@@ -4,8 +4,7 @@
 #include "arqBison.tab.h"
 #include <stdio.h>
 #include <string.h>
-int num = 0;
-int auxList = 0;
+int num;
 
 %}
 
@@ -27,24 +26,11 @@ simbol [" "|","|"."|":"|";"]
 "\\section"		  		    {printf(" %s ", yytext); return SECTION; }
 "\\subsection"		  	    {printf(" %s ", yytext); return SUBSECTION; }
 "\\paragraph" 			    {printf(" %s ", yytext); return PARAGRAPH; }
-"\\begin{enumerate}"        {printf(" %s ", yytext); num = 1; auxList++; return BEGNUMLIST; }
-"\\end{enumerate}"          {printf(" %s ", yytext); num = 2; auxList--; return ENDNUMLIST; }
-"\\begin{itemsize}"         {printf(" %s ", yytext); num = 3; auxList++; return BEGITEMSL; }
-"\\end{itemsize}"		    {printf(" %s ", yytext); num = 4; auxList--; return ENDITEMSL; }
-"\\item" { printf(" %s ", yytext); 
-        if(num <= 2){
-            if(auxList > 1)
-                return(ITEMLISTIN);
-            else
-                return(ITEMSNUMEREDLIST); 
-        } 
-        else{
-            if(auxList > 1)
-                return(ITEMLISTIN);
-            else
-                return(ITEMSL); 
-        }
-    }
+"\\begin{enumerate}"        {printf(" %s ", yytext); num = 1; return BEGNUMLIST; }
+"\\end{enumerate}"          {printf(" %s ", yytext); num = 2; return ENDNUMLIST; }
+"\\item" 				    {printf(" %s ", yytext); if(num == 1) return(ITEMSNUMEREDLIST); else return(ITEMSL); }
+"\\begin{itemsize}"         {printf(" %s ", yytext); num = 0; return BEGITEMSL; }
+"\\end{itemsize}"		    {printf(" %s ", yytext); num = 2; return ENDITEMSL; }
 "\\bf"					    {printf(" %s ", yytext); return BOLDFACE; }
 "\\it"					    {printf(" %s ", yytext); return ITALICS; }
 "\\underline"			    {printf(" %s ", yytext); return UNDERLINE; }
@@ -55,3 +41,13 @@ simbol [" "|","|"."|":"|";"]
 
 
 %%
+
+YYSTYPE yylval;
+
+int main(void)
+{
+    int token;
+    while ((token = yylex()) != 0)
+        printf("Token: %d (%s)\n", token, yytext);
+    return 0;
+}

@@ -1,25 +1,48 @@
 %{
 # include <stdio.h>
 # include <stdlib.h>
-# include "calcH.h"
+
+int yydebug = 1;
+FILE *archivef;
+int yylex();
+void yyerror(const char *s);
+
 %}
 
 %union {
-    struct ast *a;
-    double d;
+    char*	arr;
 }
 
 /* declaracao de tokens */
 %token <s> NAME
 %token <s> CONTENT
+%token <s> TITLE
 %token <s> CLASS
 %token <s> PACKAGE
 %token <s> AUTHOR
+%token <s> BEGINNING
+%token <s> END
+%token <s> CHAPTER
+%token <s> SECTION
+%token <s> SUBSECTION
+%token <s> PARAGRAPH
+%token <s> BEGNUMLIST
+%token <s> ENDNUMLIST
+%token <s> ITEMSNUMEREDLIST
+%token <s> ITEMSL
+%token <s> BEGITEMSL
+%token <s> ENDITEMSL
+%token <s> BOLDFACE
+%token <s> ITALICS
+%token <s> UNDERLINE
+%token <s> ITEMLISTIN
+%token <arr> WORD
 %token EOL
 
-%type <a> exp factor term
+%start documentLatex
 
 %%
+
 documentLatex: configuration identification principal
 ;
 
@@ -45,6 +68,7 @@ listBody: chapter section subsection listBody
 ;
 
 chapter: CHAPTER {fprintf(archivef,"\n## ");} '{' name '}' body chapter
+| CHAPTER {fprintf(archivef,"\n## ");} '{' name '}'
 | body
 ;
 
@@ -60,6 +84,7 @@ body: text
 | text body
 | textStyle body
 | lists body
+|
 ;
 
 text: PARAGRAPH {fprintf(archivef,"\n\n");} '{' name '}'
@@ -77,19 +102,47 @@ lists: numeredList
 numeredList: BEGNUMLIST itemsNumeredList ENDNUMLIST
 ;
 
-itemsNumeredList: ITEMSNUMEREDLIST {fprintf(archivef,"\n1.");}
-| ITEMSNUMEREDLIST {fprintf(archivef,"\n1.");} itemsNumeredList
+itemsNumeredList: ITEMSNUMEREDLIST {fprintf(archivef,"\n1. ");} '{' name '}' itemsNumeredList itemsNumeredList
+| ITEMSNUMEREDLIST {fprintf(archivef,"\n1. ");} '{' name '}'
+| ITEMLISTIN {fprintf(archivef,"\n\t1. ");} '{' name '}' itemsNumeredList
+| ITEMLISTIN {fprintf(archivef,"\n\t1. ");} '{' name '}'
+|
 | lists
 ;
 
 itemsList: BEGITEMSL itemsLItems ENDITEMSL
 ;
 
-itemsLItems: ITEMSNUMEREDLIST {fprintf(archivef,"\n*.");}
-| ITEMSNUMEREDLIST itemsLItems
+itemsLItems: ITEMSL {fprintf(archivef,"\n* ");} '{' name '}' itemsLItems itemsLItems
+| ITEMSL {fprintf(archivef,"\n* ");} '{' name '}' 
+| ITEMLISTIN {fprintf(archivef,"\n\t* ");} '{' name '}' itemsLItems
+| ITEMLISTIN {fprintf(archivef,"\n\t* ");} '{' name '}'
+|
 | lists
 ;
 
 name	:	WORD {fprintf(archivef,"%s",$1); }
 
 %%
+
+extern FILE *yyin;
+
+int main(int argc, char *argv[]){
+	yydebug=1;
+  archivef = fopen("result.md","w+");
+  if(argc>1)
+{
+  FILE *file;
+  file=fopen(argv[1],"r");
+  if(!file)
+  {
+    fprintf(archivef,"ERROR");
+  }
+  yyin=file;
+}
+	yyparse();
+	}
+
+void yyerror (char const *s) {
+   fprintf (stderr, "%s\n", s);
+ }
