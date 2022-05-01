@@ -1,7 +1,7 @@
 
 # Translator LATEX to Markdown
 # Tiago Comeron
-## First Chapter 1.
+## First Chapter
 
 This outside assignment was created using FLEX and BISON.
 
@@ -20,7 +20,7 @@ Not numereted list:
 * Third.
 
  
-## Second Chapter 2.
+## Second Chapter
 
 Before section
 ### Section 1

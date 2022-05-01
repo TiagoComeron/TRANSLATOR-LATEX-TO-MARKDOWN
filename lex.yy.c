@@ -469,14 +469,13 @@ char *yytext;
 #define INITIAL 0
 #define YY_NO_INPUT 1
 #define YY_NO_UNPUT 1
-#line 4 "arqFlex.l"
+#line 3 "arqFlex.l"
 #include "arqBison.tab.h"
 #include <stdio.h>
 #include <string.h>
 int num = 0;
 int auxList = 0;
-
-#line 480 "lex.yy.c"
+#line 479 "lex.yy.c"
 
 /* Macros after this point can all be overridden by user definitions in
  * section 1.
@@ -627,10 +626,10 @@ YY_DECL
 	register char *yy_cp, *yy_bp;
 	register int yy_act;
 
-#line 16 "arqFlex.l"
+#line 13 "arqFlex.l"
 
 
-#line 634 "lex.yy.c"
+#line 633 "lex.yy.c"
 
 	if ( yy_init )
 		{
@@ -715,138 +714,134 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 18 "arqFlex.l"
+#line 15 "arqFlex.l"
 {printf(" %s ", yytext); return yytext[0]; }
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 19 "arqFlex.l"
+#line 16 "arqFlex.l"
 {printf(" %s ", yytext); return yytext[0]; }
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 20 "arqFlex.l"
+#line 17 "arqFlex.l"
 {printf(" %s ", yytext); return PACKAGE; }
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 21 "arqFlex.l"
+#line 18 "arqFlex.l"
 {printf(" %s ", yytext); return CLASS; }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 22 "arqFlex.l"
+#line 19 "arqFlex.l"
 {printf(" %s ", yytext); return TITLE; }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 23 "arqFlex.l"
+#line 20 "arqFlex.l"
 {printf(" %s ", yytext); return AUTHOR; }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 24 "arqFlex.l"
+#line 21 "arqFlex.l"
 {printf(" %s ", yytext); return BEGINNING; }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 25 "arqFlex.l"
+#line 22 "arqFlex.l"
 {printf(" %s ", yytext); return END; }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 26 "arqFlex.l"
+#line 23 "arqFlex.l"
 {printf(" %s ", yytext); return CHAPTER; }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 27 "arqFlex.l"
+#line 24 "arqFlex.l"
 {printf(" %s ", yytext); return SECTION; }
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 28 "arqFlex.l"
+#line 25 "arqFlex.l"
 {printf(" %s ", yytext); return SUBSECTION; }
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 29 "arqFlex.l"
+#line 26 "arqFlex.l"
 {printf(" %s ", yytext); return PARAGRAPH; }
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 30 "arqFlex.l"
+#line 27 "arqFlex.l"
 {printf(" %s ", yytext); num = 1; auxList++; return BEGNUMLIST; }
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 31 "arqFlex.l"
+#line 28 "arqFlex.l"
 {printf(" %s ", yytext); num = 2; auxList--; return ENDNUMLIST; }
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 32 "arqFlex.l"
+#line 29 "arqFlex.l"
 {printf(" %s ", yytext); num = 3; auxList++; return BEGITEMSL; }
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 33 "arqFlex.l"
+#line 30 "arqFlex.l"
 {printf(" %s ", yytext); num = 4; auxList--; return ENDITEMSL; }
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 34 "arqFlex.l"
+#line 31 "arqFlex.l"
 { printf(" %s ", yytext); 
         if(num <= 2){
-            if(auxList > 1)
-                return(ITEMLISTIN);
-            else
-                return(ITEMSNUMEREDLIST); 
+            if(auxList > 1) return(ITEMLISTIN);
+            else return(ITEMSNUMEREDLIST); 
         } 
         else{
-            if(auxList > 1)
-                return(ITEMLISTIN);
-            else
-                return(ITEMSL); 
+            if(auxList > 1) return(ITEMLISTIN);
+            else return(ITEMSL); 
         }
     }
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 48 "arqFlex.l"
+#line 41 "arqFlex.l"
 {printf(" %s ", yytext); return BOLDFACE; }
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 49 "arqFlex.l"
+#line 42 "arqFlex.l"
 {printf(" %s ", yytext); return ITALICS; }
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 50 "arqFlex.l"
+#line 43 "arqFlex.l"
 {printf(" %s ", yytext); return UNDERLINE; }
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 52 "arqFlex.l"
+#line 44 "arqFlex.l"
 {printf(" palavra %s ", yytext);;yylval.arr = strdup(yytext); return WORD;}
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 53 "arqFlex.l"
+#line 45 "arqFlex.l"
 {}
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 54 "arqFlex.l"
+#line 46 "arqFlex.l"
 {}
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 57 "arqFlex.l"
+#line 48 "arqFlex.l"
 ECHO;
 	YY_BREAK
-#line 850 "lex.yy.c"
+#line 845 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1732,4 +1727,4 @@ int main()
 	return 0;
 	}
 #endif
-#line 57 "arqFlex.l"
+#line 48 "arqFlex.l"

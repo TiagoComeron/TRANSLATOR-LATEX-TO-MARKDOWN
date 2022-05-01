@@ -40,29 +40,28 @@
       know about them.  */
    enum yytokentype {
      NAME = 258,
-     CONTENT = 259,
-     TITLE = 260,
-     CLASS = 261,
-     PACKAGE = 262,
-     AUTHOR = 263,
-     BEGINNING = 264,
-     END = 265,
-     CHAPTER = 266,
-     SECTION = 267,
-     SUBSECTION = 268,
-     PARAGRAPH = 269,
-     BEGNUMLIST = 270,
-     ENDNUMLIST = 271,
-     ITEMSNUMEREDLIST = 272,
-     ITEMSL = 273,
-     BEGITEMSL = 274,
-     ENDITEMSL = 275,
-     BOLDFACE = 276,
-     ITALICS = 277,
-     UNDERLINE = 278,
-     ITEMLISTIN = 279,
-     WORD = 280,
-     EOL = 281
+     TITLE = 259,
+     CLASS = 260,
+     PACKAGE = 261,
+     AUTHOR = 262,
+     BEGINNING = 263,
+     END = 264,
+     CHAPTER = 265,
+     SECTION = 266,
+     SUBSECTION = 267,
+     PARAGRAPH = 268,
+     BEGNUMLIST = 269,
+     ENDNUMLIST = 270,
+     ITEMSNUMEREDLIST = 271,
+     ITEMSL = 272,
+     BEGITEMSL = 273,
+     ENDITEMSL = 274,
+     BOLDFACE = 275,
+     ITALICS = 276,
+     UNDERLINE = 277,
+     ITEMLISTIN = 278,
+     WORD = 279,
+     EOL = 280
    };
 #endif
 
@@ -80,7 +79,7 @@ typedef union YYSTYPE
 
 
 /* Line 1676 of yacc.c  */
-#line 84 "arqBison.tab.h"
+#line 83 "arqBison.tab.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
