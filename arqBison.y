@@ -15,7 +15,6 @@ void yyerror(const char *s);
 
 /* declaracao de tokens */
 %token <s> NAME
-%token <s> CONTENT
 %token <s> TITLE
 %token <s> CLASS
 %token <s> PACKAGE

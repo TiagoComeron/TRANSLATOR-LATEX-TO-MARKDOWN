@@ -1,14 +1,11 @@
-%option noinput nounput
-%option noyywrap
+%option noinput nounput noyywrap
 %{
 #include "arqBison.tab.h"
 #include <stdio.h>
 #include <string.h>
 int num = 0;
 int auxList = 0;
-
 %}
-
 
 word [a-zA-Z0-9]+
 simbol [" "|","|"."|":"|";"]
@@ -33,25 +30,19 @@ simbol [" "|","|"."|":"|";"]
 "\\end{itemsize}"		    {printf(" %s ", yytext); num = 4; auxList--; return ENDITEMSL; }
 "\\item" { printf(" %s ", yytext); 
         if(num <= 2){
-            if(auxList > 1)
-                return(ITEMLISTIN);
-            else
-                return(ITEMSNUMEREDLIST); 
+            if(auxList > 1) return(ITEMLISTIN);
+            else return(ITEMSNUMEREDLIST); 
         } 
         else{
-            if(auxList > 1)
-                return(ITEMLISTIN);
-            else
-                return(ITEMSL); 
+            if(auxList > 1) return(ITEMLISTIN);
+            else return(ITEMSL); 
         }
     }
 "\\bf"					    {printf(" %s ", yytext); return BOLDFACE; }
 "\\it"					    {printf(" %s ", yytext); return ITALICS; }
 "\\underline"			    {printf(" %s ", yytext); return UNDERLINE; }
-
 ({word}|{simbol})+	    {printf(" palavra %s ", yytext);;yylval.arr = strdup(yytext); return WORD;}
 \n {}
 [ \t] {}
-
 
 %%
